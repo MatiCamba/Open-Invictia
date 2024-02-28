@@ -1,0 +1,188 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.btn-google {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    box-shadow: 0.3em 0.3em 0.5em 0.1em #00000015;
+    border-radius: 0.8rem;
+    background-color: transparent;
+    width: 70%;
+    height: auto;
+    margin-left: 15%;
+    cursor: pointer;
+}
+.g-logo {
+    width: 1.2rem;
+}
+.p-google {
+    margin-left: 0.8rem;
+    font-weight: 500;
+    font-family: 'Roboto', sans-serif ;
+}
+.btn-transparent{
+    font-size: 0.8rem;
+    background-color: transparent;
+    color: black;
+    border: none;
+    font-family: 'Roboto', sans-serif;
+
+}
+.btn-transparent:hover {
+    cursor: pointer;
+}
+
+.container-formL {
+    display: flex;
+    justify-content: start;
+    padding-left: 10%;
+    align-items: center;
+}
+.title-form {
+    font-size: 1.8rem;
+    font-family: 'Roboto', sans-serif ;
+    color: #0d1641;
+    margin-left: 3%;
+}
+
+.svg-login{
+    width: 2rem;
+}
+.container-login{
+    padding: 8%;
+    margin-top: 50%;
+}
+.menu-svg {
+    width: 2rem;
+}
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 4rem;
+    background-color: white;
+    position: fixed;
+    z-index: 100;
+    box-shadow: 0.3em 0.3em 0.5em 0.1em #00000015;
+}
+
+.nav-icon {
+    width: 1.9rem;
+}
+.right-icon {
+    width: 1.9rem;
+    margin-left: 2rem;
+}
+.list-icon {
+    width: 1.5rem;
+    margin: 0.7rem;
+}
+.icon-container{
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 50%;
+    border: 2px solid #e6e5e5;
+}
+.list-title{
+    font-size: 0.9rem;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    color: #525252;
+    margin-left: 0.5rem;
+    width: 10rem;
+}
+.account-title {
+    font-size: 0.9rem;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+}
+.account-text {
+    font-size: 0.9rem;
+    font-family: 'Roboto', sans-serif;
+    margin-left: 0.5rem;
+}
+a {
+    text-decoration: none;
+}
+.edit-icon {
+    width: 1rem;
+    margin-left: 0.8rem;
+}
+.editimg-icon {
+    width: 1rem;
+    margin-left: 28%;
+    margin-top: 26%;
+    position: absolute;
+}
+.editimg-container {
+    position: absolute;
+    margin-left: 38%;
+    margin-top: 27%;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color: #1976d2;
+}
+.correct-icon {
+    width: 0.8rem;
+}
+.home-cf {
+    width: 100%;
+}
+.home-container {
+    background-image: url(./assets/cf.png);
+	padding: 28% 5%;
+	text-align: center;
+	background-position: center center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	position: relative;
+}
+.home-container::before {
+    content:'';
+	position: absolute;
+    top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: rgba(0,0,0,0.6);
+}
+.p-home {
+    color: white;
+    position: absolute;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 1.6rem;
+    bottom: 53% !important;
+}
+.p-home2{
+    color: white;
+    position: absolute;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 1.1rem;
+    bottom: 44% !important;
+    left: 17% !important;
+}
+.btn-home {
+    background-color: transparent;
+    color: white;
+    position: absolute;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.8rem;
+    bottom: 25% !important;
+    left: 11% !important;
+    border: 1px solid white;
+    width: 5rem;
+    height: 2rem;
+    border-radius: 1rem;
+}
+.img-wod {
+    width: 100%;
+    height: 80%;
+}
