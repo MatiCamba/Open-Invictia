@@ -20,7 +20,7 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-export const SimpleTable = ({ photoURL, users }) => {
+export const SimpleTable = ({ users }) => {
   const [filteringGender, setFilteringGender] = useState("");
   const [filteringCategory, setFilteringCategory] = useState("");
   const [expanded, setExpanded] = useState(false);
@@ -135,7 +135,7 @@ export const SimpleTable = ({ photoURL, users }) => {
                       id="panel1bh-header"
                     >
                       <img
-                        src={row.photoURL || photoURL}
+                        src={row.photoURL}
                         alt={row.nombre}
                         style={{
                           width: "50px",
