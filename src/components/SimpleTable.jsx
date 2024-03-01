@@ -119,8 +119,9 @@ export const SimpleTable = ({ photoURL, users }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((row, index) => (
+          {data.map((row, index) => (
               <TableRow key={index}>
+
                 <TableCell>
                   <Accordion
                     expanded={expanded === row.nombre}

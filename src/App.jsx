@@ -15,6 +15,7 @@ export const App = () => {
 
     const [users, setUsers] = useState([]);
 
+<<<<<<< HEAD
     useEffect(() => {
         const fetchUsers = async () => {
           try {
@@ -29,6 +30,18 @@ export const App = () => {
       
         fetchUsers();
       }, []);
+=======
+useEffect(() => {
+    const fetchUsers = async () => {
+        const usersCollection = collection(db, 'usuarios');
+        const usersSnapshot = await getDocs(usersCollection);
+        const usersList = usersSnapshot.docs.map(doc => doc.data());
+        setUsers(usersList);
+    };
+
+    fetchUsers();
+}, []);
+>>>>>>> 35c343208cb244dad417bcb65d0db2c09ad04c82
 
     useEffect(() => {
         const suscribed = onAuthStateChanged(auth, (currentUser) => {
