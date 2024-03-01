@@ -20,12 +20,11 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-export const SimpleTable = ({ users, photoURL }) => {
+export const SimpleTable = ({ photoURL, users }) => {
   const [filteringGender, setFilteringGender] = useState("");
   const [filteringCategory, setFilteringCategory] = useState("");
-  /* const [filteringWod, setFilteringWod] = useState(""); */
   const [expanded, setExpanded] = useState(false);
-  const [searchValue, setSearchValue] = useState(""); // Nuevo estado para el valor de búsqueda
+  const [searchValue, setSearchValue] = useState("");
 
   const data = useMemo(() => {
     return users.filter((user) => {
@@ -38,10 +37,6 @@ export const SimpleTable = ({ users, photoURL }) => {
       if (filteringCategory) {
         matches = matches && user.categoria === filteringCategory;
       }
-
-      /* if (filteringWod) {
-        matches = matches && user.wod === filteringWod;
-      } */
 
       // Nueva condición de filtrado para la búsqueda por nombre
       if (searchValue) {
@@ -106,20 +101,6 @@ export const SimpleTable = ({ users, photoURL }) => {
           ))}
         </Select>
       </FormControl>
-      {/* <FormControl style={{ width: '80%', margin: '20px',  }}>
-        <InputLabel>Wod</InputLabel>
-        <Select
-          value={filteringWod}
-          onChange={(e) => setFilteringWod(e.target.value)}
-        >
-          <MenuItem value="">
-            <em>Todos</em>
-          </MenuItem>
-          <MenuItem value="24 1">24.1</MenuItem>
-          <MenuItem value="24 2">24.2</MenuItem>
-          <MenuItem value="24 3">24.3</MenuItem>
-        </Select>
-      </FormControl> */}
 
       <Typography variant="h2" style={{  
         color:'#0d1641', 
@@ -135,13 +116,11 @@ export const SimpleTable = ({ users, photoURL }) => {
           <TableHead style={{ backgroundColor: '#0d1641' }}>
             <TableRow>
               <TableCell style={{ color: 'white', fontSize: '1.5rem' }}>Atleta</TableCell>
-              {/* <TableCell style={{ color: 'white', fontSize: '1.5rem' }}>Categoría</TableCell>
-              <TableCell style={{ color: 'white', fontSize: '1.5rem' }}>Género</TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((row) => (
-              <TableRow key={row.nombre}>
+            {data.map((row, index) => (
+              <TableRow key={index}>
                 <TableCell>
                   <Accordion
                     expanded={expanded === row.nombre}
@@ -186,17 +165,6 @@ export const SimpleTable = ({ users, photoURL }) => {
                     </AccordionDetails>
                   </Accordion>
                 </TableCell>
-                {/* <TableCell variant="p" style={{  
-                        color:'#0d1641', 
-                        fontSize: '.8rem',
-                        }}>{row.categoria}
-                </TableCell>
-                <TableCell variant="p" style={{  
-                        color:'#0d1641', 
-                        fontSize: '.8rem',
-                        }}
-                >{row.genero}
-                </TableCell> */}
               </TableRow>
             ))}
           </TableBody>

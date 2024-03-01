@@ -15,16 +15,20 @@ export const App = () => {
 
     const [users, setUsers] = useState([]);
 
-useEffect(() => {
-  const fetchUsers = async () => {
-    const usersCollection = collection(db, 'usuarios');
-    const usersSnapshot = await getDocs(usersCollection);
-    const usersList = usersSnapshot.docs.map(doc => doc.data());
-    setUsers(usersList);
-  };
-
-  fetchUsers();
-}, []);
+    useEffect(() => {
+        const fetchUsers = async () => {
+          try {
+            const usersCollection = collection(db, 'usuarios');
+            const usersSnapshot = await getDocs(usersCollection);
+            const usersList = usersSnapshot.docs.map(doc => doc.data());
+            setUsers(usersList);
+          } catch (error) {
+            console.error("Error fetching users: ", error);
+          }
+        };
+      
+        fetchUsers();
+      }, []);
 
     useEffect(() => {
         const suscribed = onAuthStateChanged(auth, (currentUser) => {
@@ -55,7 +59,7 @@ useEffect(() => {
                         <Route path='/account' element={<AccountPage name={user.displayName} email={user.email} photoURL={user.photoURL}/>}/>
                         <Route path='/change-password' element={<ChangePassword/>}/>
                         <Route path='/crossfit-open' element={<CfOpenPage/>}/>
-                        <Route path='/crossfit-Leaderboard' element={<SimpleTable users={users} />}/>
+                        <Route path='/crossfit-Leaderboard' element={<SimpleTable photoURL={user.photoURL} users={users} />}/>
                     </Routes>
                 </> 
                 : 

@@ -4,7 +4,6 @@ import {
   AccordionSummary,
   Accordion,
   Box,
-  Typography,
 } from "@mui/material";
 export const AccordionOpen = ({ header, details }) => {
   return (
