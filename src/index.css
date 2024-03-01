@@ -186,3 +186,24 @@ a {
     width: 100%;
     height: 80%;
 }
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+thead, tfoot {
+    background: #333;
+    color: white;
+}
+
+th, td {
+    text-align: left;
+    padding: 16px;
+}
+
+tbody tr:nth-child(even) {
+    background: #f2f2f2;
+}

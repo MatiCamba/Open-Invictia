@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
+import ReactDOM from 'react-dom'
 import { App } from './App'
 
 import '@fontsource/roboto/300.css';
@@ -11,7 +11,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
 import './index.css'
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <SnackbarProvider autoHideDuration={2000}>
@@ -19,4 +19,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       </SnackbarProvider>
     </BrowserRouter>
   </React.StrictMode>,
+  document.getElementById('root')
 )

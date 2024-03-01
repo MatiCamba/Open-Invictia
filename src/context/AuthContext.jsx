@@ -31,7 +31,10 @@ export const AuthProvider = ({children}) => {
                 email: user.email, 
                 edad: '',
                 genero: '',
-                categoria: '', 
+                categoria: '',
+                '24 1': '',
+                '24 2': '',
+                '24 3': '',
             });
         } catch (error) {
             console.log(error)
@@ -55,7 +58,10 @@ export const AuthProvider = ({children}) => {
                     email: user.email, 
                     edad: '',
                     genero: '',
-                    categoria: '', 
+                    categoria: '',
+                    '24 1': '',
+                    '24 2': '',
+                    '24 3': '',
                 });
             }
         } catch (error) {

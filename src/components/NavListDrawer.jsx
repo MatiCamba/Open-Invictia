@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import logoutIcon from "../assets/logout.svg"
 import rightIcon from "../assets/right.svg"
 import wliftingIcon from "../assets/lifting.svg"
+import leaderboard from "../assets/Leaderboard.png"
 import { Link } from "react-router-dom";
 export const NavListDrawer = ({name, photoURL}) => {
 
@@ -44,6 +45,19 @@ export const NavListDrawer = ({name, photoURL}) => {
                                     </div>
                                 </ListItemIcon>
                                 <p className="list-title">CrossFit Open 2024</p>
+                                <ListItemIcon>
+                                        <img src={rightIcon} className="right-icon"/>
+                                </ListItemIcon>
+                        </ListItem>
+                    </Link>
+                    <Link to="/crossfit-Leaderboard">
+                        <ListItem sx={{marginTop: '1rem'}}>
+                                <ListItemIcon>
+                                    <div className="icon-container">
+                                        <img src={leaderboard} className="list-icon"/>
+                                    </div>
+                                </ListItemIcon>
+                                <p className="list-title">Tabla de Posiciones</p>
                                 <ListItemIcon>
                                         <img src={rightIcon} className="right-icon"/>
                                 </ListItemIcon>
