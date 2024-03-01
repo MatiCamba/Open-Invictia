@@ -5,7 +5,7 @@ import {
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword, 
     GoogleAuthProvider, 
-    signInWithPopup,
+    signInWithRedirect,
     signOut
 } from "firebase/auth";
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
@@ -27,6 +27,7 @@ export const AuthProvider = ({children}) => {
             const user = response.user
             const docRef = doc(collection(db, "usuarios"), user.uid);
             await setDoc(docRef, {
+                photoURL: user.photoURL,
                 nombre: '',
                 email: user.email, 
                 edad: '',
@@ -46,7 +47,7 @@ export const AuthProvider = ({children}) => {
     const loginWithGoogle = async() => {
         const responseGoogle = new GoogleAuthProvider()
         try{
-            const response = await signInWithPopup(auth, responseGoogle)
+            const response = await signInWithRedirect(auth, responseGoogle)
             const user = response.user
             const docRef = doc(collection(db, "usuarios"), user.uid);
             const docSnap = await getDoc(docRef);
@@ -54,6 +55,7 @@ export const AuthProvider = ({children}) => {
             // Si el documento no existe, establece los datos
             if (!docSnap.exists()) {
                 await setDoc(docRef, {
+                    photoURL: user.photoURL,
                     nombre: user.displayName,
                     email: user.email, 
                     edad: '',

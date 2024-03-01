@@ -71,24 +71,34 @@ export const AccountPage = ({ name, email, photoURL }) => {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const onSubmitName = (e) => {
+  const onSubmitName = async (e) => {
     e.preventDefault();
-    updateProfile(user, {
-      displayName: newName,
-    })
-      .then(() => {
-        enqueueSnackbar("Información actualizada", {
-          variant: "success",
-        });
-      })
-      .catch((error) => {
-        enqueueSnackbar("No se pudo actualizar la información", {
-          variant: "error",
-        });
+    try {
+      await updateProfile(user, {
+        displayName: newName,
       });
+      enqueueSnackbar("Información actualizada", {
+        variant: "success",
+      });
+  
+      if (user) {
+        const docRef = doc(db, "usuarios", user.uid);
+        await setDoc(
+          docRef,
+          {
+            nombre: newName
+          },
+          { merge: true }
+        );
+      }
+    } catch (error) {
+      enqueueSnackbar("No se pudo actualizar la información", {
+        variant: "error",
+      });
+    }
     setOpen(false);
   };
-
+  
   const validateEmail = (email) => {
     const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     return regex.test(email);
@@ -139,7 +149,7 @@ export const AccountPage = ({ name, email, photoURL }) => {
       await setDoc(
         docRef,
         {
-          genero: gender,
+          genero: gender ,
         },
         { merge: true }
       );
@@ -189,29 +199,40 @@ export const AccountPage = ({ name, email, photoURL }) => {
   };
 
   const handleUpdateImg = async () => {
-    if (!selectedFile)
+    if (!selectedFile) {
       return enqueueSnackbar("Debes seleccionar una imagen", {
         variant: "warning",
       });
+    }
     try {
       const result = await uploadFile(file);
       console.log(result);
-      updateProfile(user, {
-        photoURL: result,
-      })
-        .then(() => {
-          enqueueSnackbar("Foto de perfil actualizada", {
-            variant: "success",
-          });
-        })
-        .catch((error) => {
-          alert(error);
+      try {
+        await updateProfile(user, {
+          photoURL: result,
         });
+        enqueueSnackbar("Foto de perfil actualizada", {
+          variant: "success",
+        });
+      } catch (error) {
+        alert(error);
+      }
+      if (user) {
+        const docRef = doc(db, "usuarios", user.uid);
+        await setDoc(
+          docRef,
+          {
+            photoURL: result,
+          },
+          { merge: true }
+        );
+      }
     } catch (error) {
       console.log(error);
     }
     setOpenImg(false);
   };
+  
 
   return (
     <Box

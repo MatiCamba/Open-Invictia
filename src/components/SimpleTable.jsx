@@ -140,8 +140,8 @@ export const SimpleTable = ({ users, photoURL }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((row) => (
-              <TableRow key={row.nombre}>
+            {data.map((row, index) => (
+              <TableRow key={`${row.nombre}-${index}`} > 
                 <TableCell>
                   <Accordion
                     expanded={expanded === row.nombre}

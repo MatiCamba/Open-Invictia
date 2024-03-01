@@ -16,14 +16,14 @@ export const App = () => {
     const [users, setUsers] = useState([]);
 
 useEffect(() => {
-  const fetchUsers = async () => {
-    const usersCollection = collection(db, 'usuarios');
-    const usersSnapshot = await getDocs(usersCollection);
-    const usersList = usersSnapshot.docs.map(doc => doc.data());
-    setUsers(usersList);
-  };
+    const fetchUsers = async () => {
+        const usersCollection = collection(db, 'usuarios');
+        const usersSnapshot = await getDocs(usersCollection);
+        const usersList = usersSnapshot.docs.map(doc => doc.data());
+        setUsers(usersList);
+    };
 
-  fetchUsers();
+    fetchUsers();
 }, []);
 
     useEffect(() => {
