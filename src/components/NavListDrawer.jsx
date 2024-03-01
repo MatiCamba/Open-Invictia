@@ -3,7 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import logoutIcon from "../assets/logout.svg"
 import rightIcon from "../assets/right.svg"
 import wliftingIcon from "../assets/lifting.svg"
-import leaderboard from "../assets/Leaderboard.png"
+import leaderboard from "../assets/leaderboard.png"
 import { Link } from "react-router-dom";
 export const NavListDrawer = ({name, photoURL}) => {
 
