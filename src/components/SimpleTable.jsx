@@ -121,52 +121,54 @@ export const SimpleTable = ({ users }) => {
           <TableBody>
           {data.map((row, index) => (
               <TableRow key={index}>
-
-                <TableCell>
-                  <Accordion
-                    expanded={expanded === row.nombre}
-                    onChange={(event, isExpanded) =>
-                      setExpanded(isExpanded ? row.nombre : false)
-                    }
+              <TableCell>
+                <Accordion
+                  expanded={expanded === row.nombre}
+                  onChange={(event, isExpanded) =>
+                    setExpanded(isExpanded ? row.nombre : false)
+                  }
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1bh-content"
+                    id="panel1bh-header"
                   >
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreIcon />}
-                      aria-controls="panel1bh-content"
-                      id="panel1bh-header"
-                    >
-                      <img
-                        src={row.photoURL}
-                        alt={row.nombre}
-                        style={{
-                          width: "50px",
-                          height: "50px",
-                          marginRight: "10px",
-                        }}
-                      />{" "}
-                      {/* Añade la imagen del avatar aquí */}
-                      <Typography
-                      variant="p" style={{  
-                        color:'#0d1641', 
-                        fontWeight: 'bold', 
-                        fontSize: '1rem',
-                        }}
-                      >{row.nombre}
-                      </Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Typography>
-                        24.1: {row["24.1"]}
-                      </Typography>
-                      <Typography>
-                        24.2: {row["24.2"]}
-                      </Typography>
-                      <Typography>
-                        24.3: {row["24.3"]}
-                      </Typography>
-                    </AccordionDetails>
-                  </Accordion>
-                </TableCell>
-              </TableRow>
+                    <img
+                      src={row.photoURL}
+                      alt={row.nombre}
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        marginRight: "10px",
+                      }}
+                    />{" "}
+                    {/* Añade la imagen del avatar aquí */}
+                    <Typography
+                    variant="p" style={{  
+                      color:'#0d1641', 
+                      fontWeight: 'bold', 
+                      fontSize: '1rem',
+                      }}
+                    >{row.nombre}
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography>
+                      24.1: {row["WOD 24.1"]}
+                    </Typography>
+                    <Typography>
+                      24.2: {row["WOD 24.2"]}
+                    </Typography>
+                    <Typography>
+                      24.3: {row["WOD 24.3"]}
+                    </Typography>
+                    <Typography>
+                      Puntaje: {row.score} {/* Asegúrate de que 'score' es la clave correcta en el objeto 'user' */}
+                    </Typography>
+                  </AccordionDetails>
+                </Accordion>
+              </TableCell>
+            </TableRow>
             ))}
           </TableBody>
         </Table>

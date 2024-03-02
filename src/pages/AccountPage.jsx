@@ -11,7 +11,7 @@ import {
 import { Link } from "react-router-dom";
 import editIcon from "../assets/edit.svg";
 import { useEffect, useState } from "react";
-import { auth } from "../firebase/config";
+import { auth, db } from "../firebase/config";
 import { updateEmail, updateProfile } from "firebase/auth";
 import { useSnackbar } from "notistack";
 import editWhite from "../assets/editw.svg";
@@ -21,7 +21,7 @@ import { uploadFile } from "../firebase/config";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { genders, categories } from "../data/dataAutocomplete";
 import correctIcon from "../assets/correct.svg";
-import { db } from "../firebase/config";
+
 
 export const AccountPage = ({ name, email, photoURL }) => {
   const [open, setOpen] = useState(false);
@@ -57,6 +57,11 @@ export const AccountPage = ({ name, email, photoURL }) => {
     }
   }, [auth]);
 
+  const docRef = doc(db, "usuarios", user.uid);
+  getDoc(docRef).then((docSnap) => {
+    console.log(docSnap.data());
+  });
+
   const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
     clipPath: "inset(50%)",
@@ -80,13 +85,13 @@ export const AccountPage = ({ name, email, photoURL }) => {
       enqueueSnackbar("Información actualizada", {
         variant: "success",
       });
-  
+
       if (user) {
         const docRef = doc(db, "usuarios", user.uid);
         await setDoc(
           docRef,
           {
-            nombre: newName
+            nombre: newName,
           },
           { merge: true }
         );
@@ -98,7 +103,7 @@ export const AccountPage = ({ name, email, photoURL }) => {
     }
     setOpen(false);
   };
-  
+
   const validateEmail = (email) => {
     const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     return regex.test(email);
@@ -149,7 +154,7 @@ export const AccountPage = ({ name, email, photoURL }) => {
       await setDoc(
         docRef,
         {
-          genero: gender ,
+          genero: gender,
         },
         { merge: true }
       );
@@ -232,7 +237,6 @@ export const AccountPage = ({ name, email, photoURL }) => {
     }
     setOpenImg(false);
   };
-  
 
   return (
     <Box

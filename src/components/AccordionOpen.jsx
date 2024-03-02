@@ -4,8 +4,29 @@ import {
   AccordionSummary,
   Accordion,
   Box,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  TextField,
+  Typography
 } from "@mui/material";
-export const AccordionOpen = ({ header, details }) => {
+import { doc, setDoc } from "firebase/firestore";
+import { db, auth } from "../firebase/config";
+import { useState } from "react";
+
+export const AccordionOpen = ({ header, details, value, setValue }) => {
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const user = auth.currentUser;
+
+  const handleSaveScore = async () => {
+    if (user) {
+      await setDoc(doc(db, "usuarios", user.uid), { [header]: value }, { merge: true });
+      setDialogOpen(false);
+    }
+  };
+
   return (
     <Box>
       <Accordion
@@ -29,7 +50,7 @@ export const AccordionOpen = ({ header, details }) => {
         >
           {header}
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails sx={{ flexDirection: 'column' }}>
           {Array.isArray(details) ? (
             details.map((detail, index) => (
               <img className="img-wod" key={index} src={detail} alt="WOD" />
@@ -37,8 +58,35 @@ export const AccordionOpen = ({ header, details }) => {
           ) : (
             <img className="img-wod" src={details} alt="WOD" />
           )}
+          <Box sx={{display: 'flex', alignItems: 'center', marginTop: '1rem'}}>
+            <Button variant="contained" onClick={() => setDialogOpen(true)}>
+              Ingresar Score
+            </Button>
+            <Typography variant="h6" component="div" sx={{ fontWeight: 'bold', marginLeft: '1rem' }}>
+              {value}
+            </Typography>
+          </Box>
         </AccordionDetails>
       </Accordion>
+      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
+        <DialogTitle>Ingrese su score</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="score"
+            label="Score"
+            type="text"
+            fullWidth
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDialogOpen(false)}>Cancelar</Button>
+          <Button onClick={handleSaveScore}>Guardar</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
