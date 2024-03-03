@@ -29,43 +29,51 @@ export const SimpleTable = ({ users }) => {
   const [scores, setScores] = useState({});
 
   const data = useMemo(() => {
-    return users.filter((user) => {
-      let matches = true;
-
-      if (filteringGender) {
-        matches = matches && user.genero === filteringGender;
-      }
-
-      if (filteringCategory) {
-        matches = matches && user.categoria === filteringCategory;
-      }
-
-      // Nueva condición de filtrado para la búsqueda por nombre
-      if (searchValue) {
-        matches = matches && user.nombre.includes(searchValue);
-      }
-
-      return matches;
-    });
-  }, [users, filteringGender, filteringCategory, searchValue]); // Agrega searchValue a las dependencias
+    return users
+      .filter((user) => {
+        let matches = true;
+  
+        if (filteringGender) {
+          matches = matches && user.genero === filteringGender;
+        }
+  
+        if (filteringCategory) {
+          matches = matches && user.categoria === filteringCategory;
+        }
+  
+        // Nueva condición de filtrado para la búsqueda por nombre
+        if (searchValue) {
+          matches = matches && user.nombre.includes(searchValue);
+        }
+  
+        return matches;
+      })
+      .sort((a, b) => {
+        // Ordenar por puntaje de menor a mayor
+        const scoreA = scores[a.email] ? scores[a.email]["WOD 24.1"] : Infinity;
+        const scoreB = scores[b.email] ? scores[b.email]["WOD 24.1"] : Infinity;
+        return scoreA - scoreB;
+      });
+  }, [users, filteringGender, filteringCategory, searchValue, scores]); // Agrega scores a las dependencias
 
 
   useEffect(() => {
     let wodTimes = users.map((user) => {
-      let timeParts = user["WOD 24.1"] ? user["WOD 24.1"].split(":") : [0, 0];
+      let timeParts = user["WOD 24.1"] ? user["WOD 24.1"].split(":") : ["999999", "0"];
       let timeInSeconds = parseInt(timeParts[0]) * 60 + parseInt(timeParts[1]);
-      return { email: user.email, time: timeInSeconds }; // Asegúrate de que 'uid' es la propiedad correcta
+      return { email: user.email, time: timeInSeconds };
     });
   
     // Filtrar usuarios que no ingresaron un tiempo
-    wodTimes = wodTimes.filter((wodTime) => !isNaN(wodTime.time));
+    let noTimeUsers = wodTimes.filter((wodTime) => wodTime.time === 999999*60);
+    wodTimes = wodTimes.filter((wodTime) => wodTime.time !== 999999*60);
+  
+    let newScores = {};
+    let currentScore = 1;
   
     if (wodTimes.length > 0) {
       // Ordenar los tiempos en orden ascendente
       wodTimes.sort((a, b) => a.time - b.time);
-  
-      let newScores = {};
-      let currentScore = 1;
   
       // Asignar los puntajes en orden ascendente
       for (let i = 0; i < wodTimes.length; i++) {
@@ -75,9 +83,18 @@ export const SimpleTable = ({ users }) => {
         newScores[wodTimes[i].email]["WOD 24.1"] = currentScore;
         currentScore++; // Incrementar el puntaje para cada usuario, incluso si los tiempos son iguales
       }
-  
-      setScores(newScores);
     }
+  
+    // Asignar el puntaje más alto (último puntaje + 1) a los usuarios que no ingresaron un tiempo
+    noTimeUsers.forEach((user) => {
+      if (!newScores[user.email]) {
+        newScores[user.email] = {};
+      }
+      newScores[user.email]["WOD 24.1"] = currentScore;
+      currentScore++; // Incrementar el puntaje para cada usuario que no ingresó un tiempo
+    });
+  
+    setScores(newScores);
   }, [users]);
 
   //const newScores = [{...scores}]; // Copia el objeto scores

@@ -8,6 +8,7 @@ import { NavBar } from './components/NavBar'
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase/config";
 import {SimpleTable} from './components/SimpleTable.jsx';
+import MaxRepCalculator from './components/MaxRepCalculator.jsx'
 
 export const App = () => {
 
@@ -61,6 +62,7 @@ export const App = () => {
                         <Route path='/change-password' element={<ChangePassword/>}/>
                         <Route path='/crossfit-open' element={<CfOpenPage/>}/>
                         <Route path='/crossfit-Leaderboard' element={<SimpleTable users={users} />}/>
+                        <Route path='/CalculadoraRM' element={<MaxRepCalculator/>}/>
                     </Routes>
                 </> 
                 : 

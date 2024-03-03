@@ -3,8 +3,9 @@ import { useAuth } from "../context/AuthContext";
 import logoutIcon from "../assets/logout.svg"
 import rightIcon from "../assets/right.svg"
 import wliftingIcon from "../assets/lifting.svg"
-import leaderboard from "../assets/leaderboard.png"
+import podio from "../assets/podio.png"
 import { Link } from "react-router-dom";
+import calculadora from "../assets/calculadora.png"
 export const NavListDrawer = ({name, photoURL, state}) => {
 
     const auth = useAuth()
@@ -54,10 +55,23 @@ export const NavListDrawer = ({name, photoURL, state}) => {
                         <ListItem sx={{marginTop: '1rem'}} onClick={() => state(false)}>
                                 <ListItemIcon>
                                     <div className="icon-container">
-                                        <img src={leaderboard} className="list-icon"/>
+                                        <img src={podio} className="list-icon"/>
                                     </div>
                                 </ListItemIcon>
                                 <p className="list-title">Tabla de Posiciones</p>
+                                <ListItemIcon>
+                                        <img src={rightIcon} className="right-icon"/>
+                                </ListItemIcon>
+                        </ListItem>
+                    </Link>
+                    <Link to="/CalculadoraRM">
+                        <ListItem sx={{marginTop: '1rem'}} onClick={() => state(false)}>
+                                <ListItemIcon>
+                                    <div className="icon-container">
+                                        <img src={calculadora} className="list-icon"/>
+                                    </div>
+                                </ListItemIcon>
+                                <p className="list-title">Calculadora RM</p>
                                 <ListItemIcon>
                                         <img src={rightIcon} className="right-icon"/>
                                 </ListItemIcon>
