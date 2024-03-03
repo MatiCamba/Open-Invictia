@@ -4,9 +4,9 @@ import { useContext } from "react";
 import { 
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword, 
-    GoogleAuthProvider, 
-    signInWithRedirect,
-    signOut
+    GoogleAuthProvider,
+    signOut,
+    signInWithPopup
 } from "firebase/auth";
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
@@ -44,7 +44,7 @@ export const AuthProvider = ({children}) => {
     const loginWithGoogle = async() => {
         const responseGoogle = new GoogleAuthProvider()
         try{
-            const response = await signInWithRedirect(auth, responseGoogle)
+            const response = await signInWithPopup(auth, responseGoogle)
             const user = response.user
             const docRef = doc(collection(db, "usuarios"), user.uid);
             const docSnap = await getDoc(docRef);

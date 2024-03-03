@@ -40,7 +40,7 @@ export const NavBar = ({user}) => {
                 anchor="left"
                 onClose={() => setOpen(false)}
             >               
-                <NavListDrawer name={displayName} photoURL={photoURL}/>
+                <NavListDrawer name={displayName} photoURL={photoURL} state={setOpen}/>
             </Drawer>
             
         </>

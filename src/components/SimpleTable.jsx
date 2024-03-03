@@ -17,6 +17,7 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
+  Box,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
@@ -48,15 +49,13 @@ export const SimpleTable = ({ users }) => {
     });
   }, [users, filteringGender, filteringCategory, searchValue]); // Agrega searchValue a las dependencias
 
-  //console.log(data);
 
   useEffect(() => {
     let wodTimes = users.map((user) => {
       let timeParts = user["WOD 24.1"] ? user["WOD 24.1"].split(":") : [0, 0];
       let timeInSeconds = parseInt(timeParts[0]) * 60 + parseInt(timeParts[1]);
-      return { id: user.uid, time: timeInSeconds }; // Asegúrate de que 'uid' es la propiedad correcta
+      return { email: user.email, time: timeInSeconds }; // Asegúrate de que 'uid' es la propiedad correcta
     });
-    console.log(wodTimes);
   
     // Filtrar usuarios que no ingresaron un tiempo
     wodTimes = wodTimes.filter((wodTime) => !isNaN(wodTime.time));
@@ -70,16 +69,18 @@ export const SimpleTable = ({ users }) => {
   
       // Asignar los puntajes en orden ascendente
       for (let i = 0; i < wodTimes.length; i++) {
-        if (!newScores[wodTimes[i].id]) {
-          newScores[wodTimes[i].id] = {};
+        if (!newScores[wodTimes[i].email]) {
+          newScores[wodTimes[i].email] = {};
         }
-        newScores[wodTimes[i].id]["WOD 24.1"] = currentScore;
+        newScores[wodTimes[i].email]["WOD 24.1"] = currentScore;
         currentScore++; // Incrementar el puntaje para cada usuario, incluso si los tiempos son iguales
       }
   
       setScores(newScores);
     }
   }, [users]);
+
+  //const newScores = [{...scores}]; // Copia el objeto scores
 
 
   return (
@@ -89,14 +90,15 @@ export const SimpleTable = ({ users }) => {
         style={{
           color: "#0d1641",
           fontWeight: "bold",
-          fontSize: "2rem",
+          fontSize: "1.5rem",
           marginLeft: "1rem",
         }}
       >
         Buscador
       </Typography>
       <TextField
-        style={{ width: "80%", margin: "20px" }}
+        size="small"
+        style={{ width: "92%", margin: "4%" }}
         label="Buscar por nombre" // Cambia el label a "Buscar por nombre"
         value={searchValue} // Usa searchValue como el valor
         onChange={(e) => setSearchValue(e.target.value)} // Actualiza searchValue cuando el usuario escribe
@@ -107,50 +109,54 @@ export const SimpleTable = ({ users }) => {
         style={{
           color: "#0d1641",
           fontWeight: "bold",
-          fontSize: "2rem",
+          fontSize: "1.5rem",
           marginLeft: "1rem",
         }}
       >
         Filtros
       </Typography>
-      <FormControl style={{ width: "80%", margin: "20px" }}>
-        <InputLabel>Género</InputLabel>
-        <Select
-          value={filteringGender}
-          onChange={(e) => setFilteringGender(e.target.value)}
-        >
-          <MenuItem value="">
-            <em>Todas</em>
-          </MenuItem>
-          <MenuItem value="Masculino">Masculino</MenuItem>
-          <MenuItem value="Femenino">Femenino</MenuItem>
-        </Select>
-      </FormControl>
-      <FormControl style={{ width: "80%", margin: "20px" }}>
-        <InputLabel>Categoría</InputLabel>
-        <Select
-          value={filteringCategory}
-          onChange={(e) => setFilteringCategory(e.target.value)}
-        >
-          <MenuItem value="">
-            <em>Todas</em>
-          </MenuItem>
-          {categories.map((category) => (
-            <MenuItem key={category} value={category}>
-              {category}
+      <Box sx={{display:'flex'}}>
+        <FormControl style={{ width: "60%", marginLeft: "20px", marginTop: '15px'}}>
+          <InputLabel size="small">Género</InputLabel>
+          <Select
+            size="small"
+            value={filteringGender}
+            onChange={(e) => setFilteringGender(e.target.value)}
+          >
+            <MenuItem value="">
+              <em>Todas</em>
             </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
+            <MenuItem value="Masculino">Masculino</MenuItem>
+            <MenuItem value="Femenino">Femenino</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl style={{ width: "80%", marginRight: "20px", marginTop: '15px', marginLeft:'5px' }}>
+          <InputLabel size="small">Categoría</InputLabel>
+          <Select
+            size="small"
+            value={filteringCategory}
+            onChange={(e) => setFilteringCategory(e.target.value)}
+          >
+            <MenuItem value="">
+              <em>Todas</em>
+            </MenuItem>
+            {categories.map((category) => (
+              <MenuItem key={category} value={category}>
+                {category}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
       <Typography
         variant="h2"
         style={{
           color: "#0d1641",
           fontWeight: "bold",
-          fontSize: "2rem",
+          fontSize: "1.5rem",
           marginLeft: "1rem",
           marginBottom: "1rem",
+          marginTop: "1.5rem",
         }}
       >
         Tabla de Posiciones
@@ -163,8 +169,8 @@ export const SimpleTable = ({ users }) => {
         <Table>
           <TableHead style={{ backgroundColor: "#0d1641" }}>
             <TableRow>
-              <TableCell style={{ color: "white", fontSize: "1.5rem" }}>
-                Atleta
+              <TableCell style={{ color: "white", fontSize: "1.2rem" }}>
+                Atletas
               </TableCell>
             </TableRow>
           </TableHead>
@@ -183,6 +189,7 @@ export const SimpleTable = ({ users }) => {
                       aria-controls="panel1bh-content"
                       id="panel1bh-header"
                     >
+                      
                       <img
                         src={row.photoURL}
                         alt={row.nombre}
@@ -201,13 +208,13 @@ export const SimpleTable = ({ users }) => {
                           fontSize: "1rem",
                         }}
                       >
-                        {row.nombre}
+                        {scores[row.email] ? scores[row.email]["WOD 24.1"] : "N/A"} {" "}{" "}                      {row.nombre}
                       </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                       <Typography>
                         24.1: {row["WOD 24.1"]} - Puntaje:{" "}
-                        {scores[row.id] ? scores[row.id]["WOD 24.1"] : "N/A"}
+                        {scores[row.email] ? scores[row.email]["WOD 24.1"] : "N/A"}
                       </Typography>
                       <Typography>24.2: {row["WOD 24.2"]}</Typography>
                       <Typography>24.3: {row["WOD 24.3"]}</Typography>

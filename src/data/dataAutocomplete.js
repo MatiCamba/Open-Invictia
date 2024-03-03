@@ -2,8 +2,6 @@ export const genders = ['Masculino', 'Femenino'];
 export const categories = [
     'Scaled Femenino',
     'Scaled Masculino', 
-    'Advanced Femenino', 
-    'Advanced Masculino', 
     'Rx Femenino', 
     'Rx Masculino',
     'Teenage Femenino 14-15',

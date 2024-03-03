@@ -5,7 +5,7 @@ import rightIcon from "../assets/right.svg"
 import wliftingIcon from "../assets/lifting.svg"
 import leaderboard from "../assets/leaderboard.png"
 import { Link } from "react-router-dom";
-export const NavListDrawer = ({name, photoURL}) => {
+export const NavListDrawer = ({name, photoURL, state}) => {
 
     const auth = useAuth()
     const handleLogout = () => {
@@ -16,7 +16,7 @@ export const NavListDrawer = ({name, photoURL}) => {
         <Box sx={{width: '19rem'}}>
             <nav>
                 <List>
-                    <ListItem disablePadding >
+                    <ListItem disablePadding onClick={() => state(false)}>
                         <Link to="/account">
                             <ListItemButton>
                                 <Avatar 
@@ -38,7 +38,7 @@ export const NavListDrawer = ({name, photoURL}) => {
                     </ListItem>
                     <Divider/>
                     <Link to="/crossfit-open">
-                        <ListItem sx={{marginTop: '1rem'}}>
+                        <ListItem sx={{marginTop: '1rem'}} onClick={() => state(false)}>
                                 <ListItemIcon>
                                     <div className="icon-container">
                                         <img src={wliftingIcon} className="list-icon"/>
@@ -51,7 +51,7 @@ export const NavListDrawer = ({name, photoURL}) => {
                         </ListItem>
                     </Link>
                     <Link to="/crossfit-Leaderboard">
-                        <ListItem sx={{marginTop: '1rem'}}>
+                        <ListItem sx={{marginTop: '1rem'}} onClick={() => state(false)}>
                                 <ListItemIcon>
                                     <div className="icon-container">
                                         <img src={leaderboard} className="list-icon"/>

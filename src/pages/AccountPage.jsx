@@ -453,9 +453,9 @@ export const AccountPage = ({ name, email, photoURL }) => {
             isOptionEqualToValue={(option, value) =>
               option === value || (option === "" && value === "")
             }
-            value={gender || genders[0]} // Si gender es una cadena vacía, se usará la primera opción de genders
+            value={gender} 
             onChange={(event, newValue) => {
-              setGender(newValue || genders[0]); // Si newValue es una cadena vacía, se usará la primera opción de genders
+              setGender(newValue); 
             }}
             options={genders}
             renderInput={(params) => <TextField {...params} />}
@@ -500,9 +500,9 @@ export const AccountPage = ({ name, email, photoURL }) => {
           <Autocomplete
             size="small"
             isOptionEqualToValue={(option, value) => option === value}
-            value={category || categories[0]} // Si category es una cadena vacía, se usará la primera opción de categories
+            value={category} 
             onChange={(event, newValue) => {
-              setCategory(newValue || categories[0]); // Si newValue es una cadena vacía, se usará la primera opción de categories
+              setCategory(newValue); 
             }}
             options={categories}
             renderInput={(params) => <TextField {...params} />}
