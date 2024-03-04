@@ -14,7 +14,7 @@ import './index.css'
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <SnackbarProvider autoHideDuration={2000}>
+      <SnackbarProvider autoHideDuration={2000} sx={{ fontFamily: "Roboto, sans-serif" }}>
         <App />
       </SnackbarProvider>
     </BrowserRouter>

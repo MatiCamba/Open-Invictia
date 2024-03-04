@@ -23,9 +23,10 @@
     margin-left: 0.8rem;
     font-weight: 500;
     font-family: 'Roboto', sans-serif ;
+    font-size: 0.9rem;
 }
 .btn-transparent{
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     background-color: transparent;
     color: black;
     border: none;
@@ -39,8 +40,9 @@
 .container-formL {
     display: flex;
     justify-content: start;
-    padding-left: 10%;
+    padding-left: 8%;
     align-items: center;
+    margin-bottom: 1rem;
 }
 .title-form {
     font-size: 1.8rem;
@@ -53,8 +55,22 @@
     width: 2rem;
 }
 .container-login{
-    padding: 8%;
-    margin-top: 50%;
+    padding-top: 40%;
+    background-image: url('./assets/crossfitlogin.jpg');
+    height: 100vh;
+    position: relative;
+    background-position: center center;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+.container-login::before {
+    content:'';
+	position: absolute;
+    top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: rgba(0,0,0,0.6);
 }
 .menu-svg {
     width: 2rem;
@@ -73,6 +89,7 @@
 
 .nav-icon {
     width: 1.9rem;
+    margin-left: 0.5rem;
 }
 .right-icon {
     width: 1.9rem;

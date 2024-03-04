@@ -10,7 +10,6 @@ export const Login = () => {
     
     const auth = useAuth()
     const [passwRegister, setPasswRegister] = useState("")
-    const [name, setName] = useState("")
     const [register, setRegister] = useState(true)
 
     const [email, setEmail] = useState("")
@@ -59,75 +58,87 @@ export const Login = () => {
     };
 
     return (
-        <div className="container-login">
-            <div className="container-formL">
-                <img src={svgLogin} alt="login" className="svg-login" />
-                <h1 className='title-form'>{register ? 'Registrarse' : 'Iniciar sesión'}</h1>
-            </div>
-            <Box 
-                component="form" 
-                onSubmit={onSubmit} 
-                sx={{ display: "flex", flexDirection: "column", gap: "2rem", padding: "10%" }}
-            >
-
-                <TextField
-                    required
-                    label="Correo electrónico"
-                    type="email"
-                    id="email"
-                    variant="outlined"
-                    size="small"
-                    helperText= {error.message}
-                    error= {error.error}
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    autoComplete="off"
-                />
-
-                <FormControl 
-                    required 
-                    variant="outlined" 
-                    >
-                    <InputLabel htmlFor="password">Contraseña</InputLabel>    
-                    <OutlinedInput
-                        size='small'
-                        value={passwRegister}
-                        onChange={(e) => setPasswRegister(e.target.value)}
-                        id="password"
-                        autoComplete="off"
-                        type={showPassword ? 'text' : 'password'}
-                        endAdornment= {
-                            <InputAdornment position="end">
-                                <IconButton
-                                    aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
-                                    onMouseDown={handleMouseDownPassword}
-                                    edge="end"
-                                    size="small"
-                                    color="primary"
-                                >
-                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                            </InputAdornment>
-                        }
-                        label="Contraseña"
-                    />
-                </FormControl>
-                <CssButton 
-                    type="submit" 
-                    variant="contained"
-                    sx={{mt: 2, bgcolor: "#0d1641", color: "white"}}
+            <div className="container-login">
+                
+                <Box 
+                    component="form" 
+                    onSubmit={onSubmit} 
+                    sx={{ 
+                        display: "flex", 
+                        flexDirection: "column", 
+                        gap: "2rem", 
+                        padding: "10%", 
+                        backgroundColor: "white", 
+                        borderRadius: "1.5rem",
+                        width: "80%",
+                        margin: "auto",
+                        paddingTop: "15%",
+                        position: "relative"
+                    }}
                 >
-                    {register ? 'Registrarme' : 'Ingresar'}
-                </CssButton>
-                <button onClick={(e) => handleGoogle(e)} className='btn-google'>
-                    <img src={google} className='g-logo'/>
-                    <p className='p-google'>Ingresa con Google</p>
-                </button>
-                <button type='button' className='btn-transparent' onClick={() => setRegister(!register) }>
-                    {register ? '¿Ya tenés una cuenta? Inicia sesión' : '¿Todavia no tenés cuenta? Registrate' }
-                </button>
-            </Box>
-        </div>
+                    <div className="container-formL">
+                        <img src={svgLogin} alt="login" className="svg-login" />
+                        <h1 className='title-form'>{register ? 'Registrarse' : 'Iniciar sesión'}</h1>
+                    </div>
+
+                    <TextField
+                        required
+                        label="Correo electrónico"
+                        type="email"
+                        id="email"
+                        variant="outlined"
+                        size="small"
+                        helperText= {error.message}
+                        error= {error.error}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        autoComplete="off"
+                    />
+
+                    <FormControl 
+                        required 
+                        variant="outlined" 
+                        >
+                        <InputLabel htmlFor="password" size="small">Contraseña</InputLabel>    
+                        <OutlinedInput
+                            size='small'
+                            value={passwRegister}
+                            onChange={(e) => setPasswRegister(e.target.value)}
+                            id="password"
+                            autoComplete="off"
+                            type={showPassword ? 'text' : 'password'}
+                            endAdornment= {
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                        edge="end"
+                                        size="small"
+                                        color="primary"
+                                    >
+                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            }
+                            label="Contraseña"
+                        />
+                    </FormControl>
+                    <CssButton 
+                        type="submit" 
+                        variant="contained"
+                        sx={{mt: 2, bgcolor: "#0d1641", color: "white"}}
+                    >
+                        {register ? 'Registrarme' : 'Ingresar'}
+                    </CssButton>
+                    <button onClick={(e) => handleGoogle(e)} className='btn-google'>
+                        <img src={google} className='g-logo'/>
+                        <p className='p-google'>Ingresa con Google</p>
+                    </button>
+                    <button type='button' className='btn-transparent' onClick={() => setRegister(!register) }>
+                        {register ? '¿Ya tenés una cuenta? Inicia sesión' : '¿Todavia no tenés cuenta? Registrate' }
+                    </button>
+                </Box>
+            </div>
     )
 }

@@ -80,16 +80,14 @@ export const NavListDrawer = ({name, photoURL, state}) => {
                 </List>
             </nav>
 
-            <Divider/>
+            <Divider sx={{marginTop: '0.5rem'}}/>
 
             <List>
-                <ListItem>
-                    <ListItemButton onClick={handleLogout}>
+                <ListItem onClick={handleLogout}>
                         <ListItemIcon>
                             <img src={logoutIcon} className="nav-icon"/>
                         </ListItemIcon>
                         <p className="list-title">Cerrar sesión</p>
-                    </ListItemButton>
                 </ListItem>
             </List>
 
