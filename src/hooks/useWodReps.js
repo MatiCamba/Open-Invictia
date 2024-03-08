@@ -30,12 +30,12 @@ export const useWodReps = (users) => {
         }
         }
 
-        // Asignar el puntaje más bajo (1) a los usuarios que no ingresaron repeticiones
+        // Asignar el puntaje más bajo (0) a los usuarios que no ingresaron repeticiones
         noRepUsers.forEach((user) => {
         if (!newScores[user.email]) {
             newScores[user.email] = {};
         }
-        newScores[user.email]["WOD 24.2"] = 1; // Asignar el puntaje más bajo a los usuarios que no ingresaron repeticiones
+        newScores[user.email]["WOD 24.2"] = 0; // Asignar el puntaje más bajo a los usuarios que no ingresaron repeticiones
         });
 
         setScoresRep(newScores);

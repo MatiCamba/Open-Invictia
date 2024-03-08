@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 export const useWodTimes = (users) => {
-    const [scores, setScores] = useState({});
+    const [scoresTime, setScoresTime] = useState({});
 
     useEffect(() => {
         let wodTimes = users.map((user) => {
@@ -40,8 +40,8 @@ export const useWodTimes = (users) => {
         currentScore++; // Incrementar el puntaje para cada usuario que no ingresó un tiempo
         });
 
-        setScores(newScores);
+        setScoresTime(newScores);
     }, [users]);
 
-    return scores;
+    return scoresTime;
 }
