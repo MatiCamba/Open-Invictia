@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 
-export const useWodReps = (users) => {
+export const useWodReps = (users, wod) => {
     const [scoresRep, setScoresRep] = useState({});
     
         useEffect(() => {
         let wodReps = users.map((user) => {
-            let repetitions = user["WOD 24.2"] ? parseInt(user["WOD 24.2"]) : 0;
+            let repetitions = user[wod] ? parseInt(user[wod]) : 0;
             return { email: user.email, reps: repetitions };
         });
     
@@ -25,7 +25,7 @@ export const useWodReps = (users) => {
             if (!newScores[wodReps[i].email]) {
                 newScores[wodReps[i].email] = {};
             }
-            newScores[wodReps[i].email]["WOD 24.2"] = currentScore;
+            newScores[wodReps[i].email][wod] = currentScore;
             currentScore++; // Incrementar el puntaje para cada usuario, incluso si las repeticiones son iguales
             }
         }
@@ -35,11 +35,11 @@ export const useWodReps = (users) => {
             if (!newScores[user.email]) {
             newScores[user.email] = {};
             }
-            newScores[user.email]["WOD 24.2"] = users.length; // Asignar el puntaje más alto a los usuarios que no ingresaron repeticiones
+            newScores[user.email][wod] = users.length; // Asignar el puntaje más alto a los usuarios que no ingresaron repeticiones
         });
     
         setScoresRep(newScores);
         }, [users]);
-    return scoresRep;
-}
-  
+    
+        return scoresRep;
+    }

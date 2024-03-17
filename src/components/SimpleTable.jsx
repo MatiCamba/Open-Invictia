@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { categories } from "../data/dataAutocomplete.js";
 import {
   Table,
@@ -22,6 +22,7 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useWodTimes } from "../hooks/useWodTimes.js";
 import { useWodReps } from "../hooks/useWodReps.js";
+import { useWod } from "../hooks/useWod.js";
 
 export const SimpleTable = ({ users }) => {
   const [filteringGender, setFilteringGender] = useState("");
@@ -29,8 +30,9 @@ export const SimpleTable = ({ users }) => {
   const [expanded, setExpanded] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  const scoresTime = useWodTimes(users); //hook para traer los scores por tiempo
-  const scoresRep = useWodReps(users); //hook para traer los scores por repeticiones
+  const scoresTime = useWodTimes(users, "WOD 24.1"); //hook para traer los scores por tiempo
+  const scoresRep = useWodReps(users, "WOD 24.2"); //hook para traer los scores por repeticiones
+  const scores = useWod(users, "WOD 24.3");
 
   const data = useMemo(() => {
     return users
@@ -54,14 +56,16 @@ export const SimpleTable = ({ users }) => {
       })
       .sort((a, b) => {
         // Ordenar por la suma de puntajes de menor a mayor
-        const scoreTimeA = scoresTime[a.email] ? scoresTime[a.email]["WOD 24.1"] : Infinity;
-        const scoreRepsA = scoresRep[a.email] ? scoresRep[a.email]["WOD 24.2"] : Infinity;
-        const scoreTimeB = scoresTime[b.email] ? scoresTime[b.email]["WOD 24.1"] : Infinity;
-        const scoreRepsB = scoresRep[b.email] ? scoresRep[b.email]["WOD 24.2"] : Infinity;
-        return (scoreTimeA + scoreRepsA) - (scoreTimeB + scoreRepsB);
-      })
+        const scoreTimeA = scoresTime[a.email] ? scoresTime[a.email]["WOD 24.1"] : users.length;
+        const scoreRepsA = scoresRep[a.email] ? scoresRep[a.email]["WOD 24.2"] : users.length;
+        const scoreWodA = scores[a.email] ? scores[a.email]["WOD 24.3"] : users.length;
+        const scoreTimeB = scoresTime[b.email] ? scoresTime[b.email]["WOD 24.1"] : users.length;
+        const scoreRepsB = scoresRep[b.email] ? scoresRep[b.email]["WOD 24.2"] : users.length;
+        const scoreWodB = scores[b.email] ? scores[b.email]["WOD 24.3"] : users.length;
+        return (scoreTimeA + scoreRepsA + scoreWodA) - (scoreTimeB + scoreRepsB + scoreWodB);
+      })      
       .map((user, index) => ({ ...user, order: index + 1 })); // Agrega un número de orden a cada usuario
-  }, [users, filteringGender, filteringCategory, searchValue, scoresTime, scoresRep]); // Agrega scoresTime y scoresReps a las dependencias
+  }, [users, filteringGender, filteringCategory, searchValue, scoresTime, scoresRep, scores]); // Agrega scoresTime y scoresReps a las dependencias
 
 
 
@@ -204,14 +208,17 @@ export const SimpleTable = ({ users }) => {
                       >                  
                           {row.nombre}
                           <p> ( </p>
-                        {scoresTime[row.email] && scoresTime[row.email]["WOD 24.1"] && scoresRep[row.email] && scoresRep[row.email]["WOD 24.2"] 
-                          ? scoresTime[row.email]["WOD 24.1"] + scoresRep[row.email]["WOD 24.2"]
-                          : scoresTime[row.email] && scoresTime[row.email]["WOD 24.1"] 
-                          ? scoresTime[row.email]["WOD 24.1"] 
-                          : scoresRep[row.email] && scoresRep[row.email]["WOD 24.2"] 
-                          ? scoresRep[row.email]["WOD 24.2"] 
-                          : "N/A"} {" "}{" "}  
-                        <p> ) </p>   
+                            {scoresTime[row.email] && scoresTime[row.email]["WOD 24.1"] && scoresRep[row.email] && scoresRep[row.email]["WOD 24.2"] && scores[row.email] && scores[row.email]["WOD 24.3"]
+                              ? scoresTime[row.email]["WOD 24.1"] + scoresRep[row.email]["WOD 24.2"] + scores[row.email]["WOD 24.3"]
+                              : scoresTime[row.email] && scoresTime[row.email]["WOD 24.1"] 
+                                ? scoresTime[row.email]["WOD 24.1"] 
+                                : scoresRep[row.email] && scoresRep[row.email]["WOD 24.2"] 
+                                  ? scoresRep[row.email]["WOD 24.2"] 
+                                  : scores[row.email] && scores[row.email]["WOD 24.3"]
+                                    ? scores[row.email]["WOD 24.3"]
+                                    : "N/A"} {" "}{" "}  
+                          <p> ) </p>
+
                       </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
@@ -223,7 +230,10 @@ export const SimpleTable = ({ users }) => {
                         24.2: {row["WOD 24.2"]} - Puntaje:{" "}
                         {scoresRep[row.email] ? scoresRep[row.email]["WOD 24.2"] : "N/A"}
                       </Typography>
-                      <Typography>24.3: {row["WOD 24.3"]}</Typography>
+                      <Typography>
+                        24.3: {row["WOD 24.3"]} - Puntaje:{" "}
+                        {scores[row.email] ? scores[row.email]["WOD 24.3"] : "N/A"}
+                      </Typography>
                     </AccordionDetails>
                   </Accordion>
                 </TableCell>
