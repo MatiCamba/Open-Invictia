@@ -3,25 +3,32 @@ import { useEffect } from "react";
 
 export const useWod = (users, wod) => {
     const [scores, setScores] = useState({});
-    
+
     useEffect(() => {
-        let userScores = users.map((user) => {
+        let timeScores = [];
+        let repScores = [];
+        let noScoreUsers = [];
+    
+        users.forEach((user) => {
             let score;
             if (user[wod] && user[wod].includes(':')) { // Si el puntaje es de tipo tiempo
             let timeParts = user[wod].split(":");
             score = parseInt(timeParts[0]) * 60 + parseInt(timeParts[1]); // Convertir a segundos
-            } else { // Si el puntaje es de tipo repeticiones
-            score = user[wod] ? parseInt(user[wod]) + 900 : 0; // Sumar 900 a las repeticiones
+            timeScores.push({ email: user.email, score });
+            } else if (user[wod]) { // Si el puntaje es de tipo repeticiones
+            score = parseInt(user[wod])
+            repScores.push({ email: user.email, score });
+            } else { // Si el usuario no ingresó un puntaje
+            noScoreUsers.push({ email: user.email });
             }
-            return { email: user.email, score };
         });
     
-        // Filtrar usuarios que no ingresaron un puntaje
-        let noScoreUsers = userScores.filter((userScore) => userScore.score === 0);
-        userScores = userScores.filter((userScore) => userScore.score !== 0);
+        // Ordenar los puntajes de tiempo en orden ascendente y los de repeticiones en orden descendente
+        timeScores.sort((a, b) => a.score - b.score);
+        repScores.sort((a, b) => b.score - a.score);
     
-        // Ordenar los puntajes en orden ascendente
-        userScores.sort((a, b) => a.score - b.score);
+        // Combinar las listas de puntajes de tiempo y repeticiones
+        let userScores = timeScores.concat(repScores);
     
         let newScores = {};
         let currentScore = 1; // Iniciar el puntaje desde 1
