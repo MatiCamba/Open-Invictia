@@ -21,6 +21,8 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useWodTimes } from "../hooks/useWodTimes.js";
+import { useWodReps } from "../hooks/useWodReps.js";
+import { useWod } from "../hooks/useWod.js";
 
 export const SimpleTable = ({ users }) => {
   const [filteringGender, setFilteringGender] = useState("");
@@ -28,7 +30,9 @@ export const SimpleTable = ({ users }) => {
   const [expanded, setExpanded] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  const scores = useWodTimes(users); //hook para traer los scores por tiempo
+  const scoresTime = useWodTimes(users, "WOD 24.1"); //hook para traer los scores por tiempo
+  const scoresRep = useWodReps(users, "WOD 24.2"); //hook para traer los scores por repeticiones
+  const scores = useWod(users, "WOD 24.3");
 
   const data = useMemo(() => {
     return users
@@ -51,12 +55,18 @@ export const SimpleTable = ({ users }) => {
         return matches;
       })
       .sort((a, b) => {
-        // Ordenar por puntaje de menor a mayor
-        const scoreA = scores[a.email] ? scores[a.email]["WOD 24.1"] : Infinity;
-        const scoreB = scores[b.email] ? scores[b.email]["WOD 24.1"] : Infinity;
-        return scoreA - scoreB;
-      });
-  }, [users, filteringGender, filteringCategory, searchValue, scores]); // Agrega scores a las dependencias
+        // Ordenar por la suma de puntajes de menor a mayor
+        const scoreTimeA = scoresTime[a.email] ? scoresTime[a.email]["WOD 24.1"] : users.length;
+        const scoreRepsA = scoresRep[a.email] ? scoresRep[a.email]["WOD 24.2"] : users.length;
+        const scoreWodA = scores[a.email] ? scores[a.email]["WOD 24.3"] : users.length;
+        const scoreTimeB = scoresTime[b.email] ? scoresTime[b.email]["WOD 24.1"] : users.length;
+        const scoreRepsB = scoresRep[b.email] ? scoresRep[b.email]["WOD 24.2"] : users.length;
+        const scoreWodB = scores[b.email] ? scores[b.email]["WOD 24.3"] : users.length;
+        return (scoreTimeA + scoreRepsA + scoreWodA) - (scoreTimeB + scoreRepsB + scoreWodB);
+      })      
+      .map((user, index) => ({ ...user, order: index + 1 })); // Agrega un número de orden a cada usuario
+  }, [users, filteringGender, filteringCategory, searchValue, scoresTime, scoresRep, scores]); // Agrega scoresTime y scoresReps a las dependencias
+
 
 
   return (
@@ -182,18 +192,48 @@ export const SimpleTable = ({ users }) => {
                           color: "#0d1641",
                           fontWeight: "bold",
                           fontSize: "1rem",
+                          marginRight: "0.5rem",
                         }}
                       >
-                        {scores[row.email] ? scores[row.email]["WOD 24.1"] : "N/A"} {" "}{" "}                      {row.nombre}
+                        {row.order} {/* Muestra el número de orden aquí */}
+                      </Typography>
+                      <Typography
+                        variant="p"
+                        style={{
+                          color: "#0d1641",
+                          fontWeight: "bold",
+                          fontSize: "1rem",
+                          display: "flex"
+                        }}
+                      >                  
+                          {row.nombre}
+                          <p> ( </p>
+                            {scoresTime[row.email] && scoresTime[row.email]["WOD 24.1"] && scoresRep[row.email] && scoresRep[row.email]["WOD 24.2"] && scores[row.email] && scores[row.email]["WOD 24.3"]
+                              ? scoresTime[row.email]["WOD 24.1"] + scoresRep[row.email]["WOD 24.2"] + scores[row.email]["WOD 24.3"]
+                              : scoresTime[row.email] && scoresTime[row.email]["WOD 24.1"] 
+                                ? scoresTime[row.email]["WOD 24.1"] 
+                                : scoresRep[row.email] && scoresRep[row.email]["WOD 24.2"] 
+                                  ? scoresRep[row.email]["WOD 24.2"] 
+                                  : scores[row.email] && scores[row.email]["WOD 24.3"]
+                                    ? scores[row.email]["WOD 24.3"]
+                                    : "N/A"} {" "}{" "}  
+                          <p> ) </p>
+
                       </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                       <Typography>
                         24.1: {row["WOD 24.1"]} - Puntaje:{" "}
-                        {scores[row.email] ? scores[row.email]["WOD 24.1"] : "N/A"}
+                        {scoresTime[row.email] ? scoresTime[row.email]["WOD 24.1"] : "N/A"}
                       </Typography>
-                      <Typography>24.2: {row["WOD 24.2"]}</Typography>
-                      <Typography>24.3: {row["WOD 24.3"]}</Typography>
+                      <Typography>
+                        24.2: {row["WOD 24.2"]} - Puntaje:{" "}
+                        {scoresRep[row.email] ? scoresRep[row.email]["WOD 24.2"] : "N/A"}
+                      </Typography>
+                      <Typography>
+                        24.3: {row["WOD 24.3"]} - Puntaje:{" "}
+                        {scores[row.email] ? scores[row.email]["WOD 24.3"] : "N/A"}
+                      </Typography>
                     </AccordionDetails>
                   </Accordion>
                 </TableCell>
