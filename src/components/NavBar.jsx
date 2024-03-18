@@ -1,5 +1,5 @@
 
-import { AppBar, Button, Drawer, IconButton, Toolbar, Typography } from "@mui/material"
+import { AppBar, Drawer, IconButton, Toolbar, Typography } from "@mui/material"
 import { NavListDrawer } from "./NavListDrawer"
 import { useState } from "react"
 import menu from "../assets/menu.svg"

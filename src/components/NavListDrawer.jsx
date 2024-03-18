@@ -6,6 +6,9 @@ import wliftingIcon from "../assets/lifting.svg"
 import podio from "../assets/podio.png"
 import { Link } from "react-router-dom";
 import calculadora from "../assets/calculadora.png"
+import cronometro from '../assets/cronometro.png'
+
+
 export const NavListDrawer = ({name, photoURL, state}) => {
 
     const auth = useAuth()
@@ -72,6 +75,19 @@ export const NavListDrawer = ({name, photoURL, state}) => {
                                     </div>
                                 </ListItemIcon>
                                 <p className="list-title">Calculadora RM</p>
+                                <ListItemIcon>
+                                        <img src={rightIcon} className="right-icon"/>
+                                </ListItemIcon>
+                        </ListItem>
+                    </Link>
+                    <Link to="/Timer">
+                        <ListItem sx={{marginTop: '1rem'}} onClick={() => state(false)}>
+                                <ListItemIcon>
+                                    <div className="icon-container">
+                                        <img src={cronometro} className="list-icon"/>
+                                    </div>
+                                </ListItemIcon>
+                                <p className="list-title">Reloj</p>
                                 <ListItemIcon>
                                         <img src={rightIcon} className="right-icon"/>
                                 </ListItemIcon>
