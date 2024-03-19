@@ -12,7 +12,7 @@ import {
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import CircularProgress from "@mui/material/CircularProgress";
-import { green, red } from "@mui/material/colors";
+import { createTheme } from '@mui/material/styles';
 
 export const Timer = () => {
   const [setup, setSetup] = useState(true);
@@ -24,8 +24,17 @@ export const Timer = () => {
   const [currentRound, setCurrentRound] = useState(1);
   const [isResting, setIsResting] = useState(false);
 
-  const colorWork = green[800];
-  const colorRest = red[800];
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#0d1641',
+      },
+      secondary: {
+        main: '#4a148c',
+      },
+    },
+  });
+
 
   useEffect(() => {
     let interval = null;
@@ -129,7 +138,7 @@ export const Timer = () => {
           </Grid>
           <Grid item xs={12}>
             <Typography
-              variant="h6"
+              variant="h5"
               align="center"
               sx={{ marginBottom: "1rem" }}
             >
@@ -172,7 +181,7 @@ export const Timer = () => {
           </Grid>
           <Grid item xs={12}>
             <Typography
-              variant="h6"
+              variant="h5"
               align="center"
               sx={{ marginBottom: "1rem" }}
             >
@@ -219,7 +228,8 @@ export const Timer = () => {
               onClick={handleGetStarted}
               fullWidth
               size="large"
-              color="success"
+              sx={{backgroundColor: "#0d1641", color: "white", marginTop: "2rem"}}
+              
             >
               Start
             </Button>
@@ -234,39 +244,41 @@ export const Timer = () => {
           }}
         >
           <IconButton
-            sx={{ marginLeft: "23rem" }}
+            sx={{ marginLeft: "20rem" }}
             onClick={() => setSetup(true)}
           >
             <CloseIcon />
           </IconButton>
-          <Typography variant="h6">
+          <Typography variant="h4">
             Ronda {currentRound} / {totalRounds}
           </Typography>
-          <Typography variant="h6">{isResting ? "Rest" : "Work"}</Typography>
+          <Typography variant="h4" sx={{fontWeight: "bold"}}>{isResting ? "Rest" : "Work"}</Typography>
           <Box
             sx={{
               position: "relative",
-              width: 200,
-              height: 200,
+              width: 380,
+              height: 380,
+              marginTop: "2rem",
             }}
           >
             <CircularProgress
               variant="determinate"
               value={100 - progress}
-              style={{ color: isResting ? colorRest : colorWork }}
-              size={200}
-              thickness={2.2}
+              style={{ color: isResting ? theme.palette.secondary.main : theme.palette.primary.main }}
+              size={380}
+              thickness={2.8}
             />
             {!isNaN(seconds) ? (
               <Typography
-                variant="h4"
+                variant="h1"
                 align="center"
                 sx={{
                   position: "absolute",
                   top: "50%",
                   left: "50%",
                   transform: "translate(-50%, -50%)",
-                  color: isResting ? "red" : "green",
+                  color: isResting ? theme.palette.secondary.main : theme.palette.primary.main,
+                  fontWeight: "bold",
                 }}
               >
                 {`${minutes}:${remainingSeconds.toString().padStart(2, "0")}`}
@@ -278,21 +290,22 @@ export const Timer = () => {
               display: "flex",
               justifyContent: "space-between",
               width: "50%",
-              marginTop: "1rem",
+              marginTop: "4rem",
             }}
           >
             <Button
               variant="outlined"
               onClick={startOrStopTimer}
-              color="success"
+              sx={{backgroundColor: "#0d1641", color: "white"}}
+              size="large"
             >
               {timerState !== "running" ? "Start" : "Pausa"}
             </Button>
             <Button
               variant="outlined"
-              color="secondary"
               onClick={resetTimer}
-              color="error"
+              sx={{backgroundColor: "white", color: "#0d1641"}}
+              size="large"
             >
               Reset
             </Button>
